@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const MongoClient = require('mongodb').MongoClient
-const url = "mongodb://localhost:27017/"
+const url = "mongodb://ayzek:009009q@ds247670.mlab.com:47670/daybook"
 const bodyParser = require('body-parser')
 
 
@@ -18,9 +18,6 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .get('/', function (req, res){
-  res.send('Welcome Done!');
-})
 .post('/OAuth/Log', function (req, res) {
   let state = false;
   if(req.body.userName != "" || req.body.userPass != "") {
