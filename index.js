@@ -24,7 +24,8 @@ express()
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-     db.collection("users").count(queryParams).then((count) => {
+    let dbo = db.db("daybook");
+     dbo.collection("users").count(queryParams).then((count) => {
         console.log(count);
         if(count == 0){
           console.log("Miss");
@@ -46,11 +47,12 @@ express()
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-     db.collection("users").count({"userName": queryParams.userName}).then((count) => {
+    let dbo = db.db("daybook");
+     dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
         console.log(count);
         if(count == 0){
           console.log("true");
-          db.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
+          dbo.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
         } else { 
           state = false; 
           console.log("false!");
@@ -67,8 +69,9 @@ express()
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
      let query = req.body.data;
-      db.collection("Content").remove({user_Name: query.user_Name});
-      db.collection("Content").insert(query);
+     let dbo = db.db("daybook");
+      dbo.collection("Content").remove({user_Name: query.user_Name});
+      dbo.collection("Content").insert(query);
 
      db.close();
     });
