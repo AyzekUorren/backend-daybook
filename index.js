@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const MongoClient = require('mongodb').MongoClient
-const url = "mongodb://ayzek:009009q@ds247670.mlab.com:47670/daybook"
+const url = "mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook"
 const bodyParser = require('body-parser')
 
 
