@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const MongoClient = require('mongodb').MongoClient
-const url = "mongodb://ayzek:009009q@ds247670.mlab.com:47670"
+const url = "mongodb://ayzek:009009q@ds247670.mlab.com:47670/daybook"
 const bodyParser = require('body-parser')
 
 
@@ -24,8 +24,7 @@ express()
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-     let dbo = db.db("daybook");
-     dbo.collection("users").count(queryParams).then((count) => {
+     db.collection("users").count(queryParams).then((count) => {
         console.log(count);
         if(count == 0){
           console.log("Miss");
@@ -47,12 +46,11 @@ express()
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-     let dbo = db.db("daybook");
-     dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
+     db.collection("users").count({"userName": queryParams.userName}).then((count) => {
         console.log(count);
         if(count == 0){
           console.log("true");
-          dbo.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
+          db.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
         } else { 
           state = false; 
           console.log("false!");
@@ -68,10 +66,9 @@ express()
   console.log(req.body.data);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-      let dbo = db.db("daybook");
      let query = req.body.data;
-      dbo.collection("Content").remove({user_Name: query.user_Name});
-      dbo.collection("Content").insert(query);
+      db.collection("Content").remove({user_Name: query.user_Name});
+      db.collection("Content").insert(query);
 
      db.close();
     });
