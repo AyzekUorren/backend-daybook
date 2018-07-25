@@ -25,29 +25,30 @@ express()
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     let dbo = db.db("daybook");
+    let data = null;
      dbo.collection("users").count(queryParams).then((count) => {
-        console.log(count);
         if(count == 0){
           console.log("Miss");
         } else { 
           state = true; 
           console.log("True!");
+          data = dbo.collection("Content").find({"userName":queryParams.userName});
         }
         db.close();
         console.log(state);
-        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass});
+        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
     });
 }
 })
 .post('/OAuth/registration', function (req, res) {
-  console.log(res.body);
   let state = true;
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     let dbo = db.db("daybook");
+    let data = null;
      dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
         console.log(count);
         if(count == 0){
@@ -59,13 +60,12 @@ express()
         }
         db.close();
         console.log(state);
-        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass});
+        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
     });
 })
 .post('/events',function(req, res){
-  console.log(req.body.data);
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
      let query = req.body.data;
@@ -77,5 +77,17 @@ express()
     });
     res.json(req.body);
     res.end();
+})
+.post('/events/update',function(req, res){
+	MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+     let query = req.body.data;
+     let dbo = db.db("daybook");
+      dbo.collection("Content").remove({user_Name: query.user_Name});
+      dbo.collection("Content").insert(query);
+
+     db.close();
+    });
+
 })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
