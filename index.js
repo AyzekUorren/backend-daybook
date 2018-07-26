@@ -49,8 +49,7 @@ express()
 		        	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
 		        	res.end();
 		          }
-		        }
-		      }
+		      
 		    });
 		}
 	}
