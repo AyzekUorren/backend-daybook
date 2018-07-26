@@ -28,7 +28,9 @@ express()
     let data = {};
      dbo.collection("users").count(queryParams).then((count) => {
         if(count == 0){
-          console.log("Fail log.");
+			console.log("Fail log.");
+			res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
+			res.end();
         } else { 
           state = true; 
           console.log("Success log.");
@@ -38,7 +40,10 @@ express()
           		console.log("User does not have events data.");
           	} else {
           		console.log("User get events data, successful.")
-          		data = dbo.collection("Content").find({"userName":queryParams.userName});
+          		dbo.collection("Content").find({"userName":queryParams.userName}).then((dbData) => {
+          			data = dbData;
+          			console.log(data);
+          		});
           	}
           	db.close();
 			console.log("Finaly result: ", state);
