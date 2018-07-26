@@ -28,6 +28,7 @@ express()
 			let data = {};
 			dbo.collection("users").count(queryParams).then((count) => {
 				if(count == 0){
+					client.close();
 					console.log("Fail log.");
 					res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
 					res.end();
@@ -38,16 +39,21 @@ express()
 						console.log(count);
 						if(count == 0){
 							console.log("User does not have events data.");
-						} else {
-							console.log("User get events data, successful.")
-							dbo.collection("Content").find({"userName":queryParams.userName}).reslove().then((userDB) => {
-								data = userDB;
-								console.log(data);
-							});
 							client.close();
-							console.log("Finaly result: ", state);
+							console.log("Finally result: ", state);
 							res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
 							res.end();
+						} else {
+							console.log("User get events data, successful.")
+							dbo.collection("Content").findOne({"userName":queryParams.userName}, function(err, result){
+								if(err) throw err;
+								
+								data = result;
+								client.close();
+								console.log("Finally result: ", state);
+								res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
+								res.end();
+							});
 						}
 					  
 					});
@@ -72,7 +78,7 @@ express()
           console.log("Failed, user already exists.");
         }
         client.close();
-        console.log("Finaly result: ", state);
+        console.log("Finally result: ", state);
         res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
