@@ -48,7 +48,7 @@ express()
 							dbo.collection("Content").findOne({"userName":queryParams.userName}, function(err, result){
 								if(err) throw err;
 								
-								data = result;
+								data = result.userEvents;
 								client.close();
 								console.log("Finally result: ", state);
 								res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
