@@ -19,41 +19,41 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .post('/OAuth/Log', function (req, res) {
-  let state = false;
-  if(req.body.userName != "" || req.body.userPass != "") {
-  let queryParams = req.body;
-  MongoClient.connect(url, function(err, client) {
-    if (err) throw err;
-    const dbo = client.db("daybook");
-    let data = {};
-     dbo.collection("users").count(queryParams).then((count) => {
-        if(count == 0){
-			console.log("Fail log.");
-			res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
-			res.end();
-        } else { 
-          state = true; 
-          console.log("Success log.");
-          dbo.collection("Content").count({"userName":queryParams.userName}).then((count) => {
-          	console.log(count);
-          	if(count == 0){
-          		console.log("User does not have events data.");
-          	} else {
-          		console.log("User get events data, successful.")
-          		dbo.collection("Content").find({"userName":queryParams.userName}).then((dbData) => {
-          			data = dbData;
-          			console.log(data);
-          		});
-          	}
-          	client.close();
-			console.log("Finaly result: ", state);
-        	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
-        	res.end();
-          });
-        }
-      });
-    });
-}
+  	let state = false;
+  	if(req.body.userName != "" || req.body.userPass != "") {
+  		let queryParams = req.body;
+  		MongoClient.connect(url, function(err, client) {
+    		if (err) throw err;
+    		const dbo = client.db("daybook");
+    		let data = {};
+     		dbo.collection("users").count(queryParams).then((count) => {
+		        if(count == 0){
+					console.log("Fail log.");
+					res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
+					res.end();
+		        } else { 
+		          state = true; 
+		          console.log("Success log.");
+		          dbo.collection("Content").count({"userName":queryParams.userName}).then((count) => {
+		          	console.log(count);
+		          	if(count == 0){
+		          		console.log("User does not have events data.");
+		          	} else {
+		          		console.log("User get events data, successful.")
+		          		dbo.collection("Content").find({"userName":queryParams.userName}).reslove().then((userDB) => {
+		          			data = userDB;
+		          			console.log(data);
+		          		});
+		          	client.close();
+					console.log("Finaly result: ", state);
+		        	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
+		        	res.end();
+		          }
+		        }
+		      }
+		    });
+		}
+	}
 })
 .post('/OAuth/registration', function (req, res) {
   let state = true;
