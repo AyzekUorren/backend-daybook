@@ -39,11 +39,11 @@ express()
           		console.log("User get events data, successful.")
           		data = dbo.collection("Content").find({"userName":queryParams.userName});
           	}
+          	db.close();
+			console.log("Finaly result: ", state);
+        	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
           });
         }
-        db.close();
-        console.log("Finaly result: ", state);
-        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
     });
