@@ -33,6 +33,7 @@ express()
           state = true; 
           console.log("Success log.");
           dbo.collection("Content").count({"userName":queryParams.userName}).then((count) => {
+          	console.log(count);
           	if(count == 0){
           		console.log("User does not have events data.");
           	} else {
@@ -42,9 +43,9 @@ express()
           	db.close();
 			console.log("Finaly result: ", state);
         	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
+        	res.end();
           });
         }
-        res.end();
       });
     });
 }
