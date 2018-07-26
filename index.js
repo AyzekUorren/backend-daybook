@@ -22,9 +22,9 @@ express()
   let state = false;
   if(req.body.userName != "" || req.body.userPass != "") {
   let queryParams = req.body;
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(url, function(err, client) {
     if (err) throw err;
-    let dbo = db.db("daybook");
+    const dbo = client.db("daybook");
     let data = {};
      dbo.collection("users").count(queryParams).then((count) => {
         if(count == 0){
@@ -45,7 +45,7 @@ express()
           			console.log(data);
           		});
           	}
-          	db.close();
+          	client.close();
 			console.log("Finaly result: ", state);
         	res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         	res.end();
@@ -58,9 +58,9 @@ express()
 .post('/OAuth/registration', function (req, res) {
   let state = true;
   let queryParams = req.body;
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(url, function(err, client) {
     if (err) throw err;
-    let dbo = db.db("daybook");
+    const dbo = client.db("daybook");
     let data = null;
      dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
         if(count == 0){
@@ -70,7 +70,7 @@ express()
           state = false; 
           console.log("Failed, user already exists.");
         }
-        db.close();
+        client.close();
         console.log("Finaly result: ", state);
         res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
@@ -78,27 +78,27 @@ express()
     });
 })
 .post('/events',function(req, res){
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(url, function(err, client) {
     if (err) throw err;
      let query = req.body.data;
-     let dbo = db.db("daybook");
+     let dbo = client.db("daybook");
       dbo.collection("Content").remove({user_Name: query.user_Name});
       dbo.collection("Content").insert(query);
 
-     db.close();
+     client.close();
     });
     res.json(req.body);
     res.end();
 })
 .post('/events/update',function(req, res){
-	MongoClient.connect(url, function(err, db) {
+	MongoClient.connect(url, function(err, client) {
     if (err) throw err;
      let query = req.body.data;
-     let dbo = db.db("daybook");
+     let dbo = client.db("daybook");
       dbo.collection("Content").remove({user_Name: query.user_Name});
       dbo.collection("Content").insert(query);
 
-     db.close();
+     client.close();
     });
 
 })
