@@ -33,6 +33,7 @@ express()
           state = true; 
           console.log("True!");
           data = dbo.collection("Content").find({"userName":queryParams.userName});
+          console.log(data);
         }
         db.close();
         console.log(state);
