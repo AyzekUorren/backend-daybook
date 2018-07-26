@@ -18,25 +18,31 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-.post('/OAuth/Log', function (req, res) {
+  .post('/OAuth/Log', function (req, res) {
   let state = false;
   if(req.body.userName != "" || req.body.userPass != "") {
   let queryParams = req.body;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     let dbo = db.db("daybook");
-    let data = null;
+    let data = {};
      dbo.collection("users").count(queryParams).then((count) => {
         if(count == 0){
-          console.log("Miss");
+          console.log("Fail log.");
         } else { 
           state = true; 
-          console.log("True!");
-          data = true /*dbo.collection("Content").find({"userName":queryParams.userName})*/;
-          console.log(data);
+          console.log("Success log.");
+          dbo.collection("Content").count({"userName":queryParams.userName}).then((count) => {
+          	if(count == 0){
+          		console.log("User does not have events data.");
+          	} else {
+          		console.log("User get events data, successful.")
+          		data = dbo.collection("Content").find({"userName":queryParams.userName});
+          	}
+          });
         }
         db.close();
-        console.log(state);
+        console.log("Finaly result: ", state);
         res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
@@ -51,16 +57,15 @@ express()
     let dbo = db.db("daybook");
     let data = null;
      dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
-        console.log(count);
         if(count == 0){
-          console.log("true");
+          console.log("Registration success , user doesn't exist.");
           dbo.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
         } else { 
           state = false; 
-          console.log("false!");
+          console.log("Failed, user already exists.");
         }
         db.close();
-        console.log(state);
+        console.log("Finaly result: ", state);
         res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
         res.end();
       });
