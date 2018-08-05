@@ -20,8 +20,8 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .post('/OAuth/Log', oauth.log(req, res))
-  .post('/OAuth/registration', oauth.registaration(req. res))
+  .post('/OAuth/Log', oauth.log)
+  .post('/OAuth/registration', oauth.registaration)
   .post('/events',function(req, res){
   MongoClient.connect(url, function(err, client) {
     if (err) throw err;
