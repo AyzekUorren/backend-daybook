@@ -1,3 +1,6 @@
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook";
+
 exports.log = function (req, res) {
   	let state = false;
   	if(req.body.userName != "" || req.body.userPass != "") {
