@@ -68,3 +68,30 @@ exports.registaration = function (req, res) {
       });
     });
 };
+
+exports.events = function(req, res){
+  MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+     let query = req.body.data;
+     let dbo = client.db("daybook");
+      dbo.collection("Content").remove({user_Name: query.user_Name});
+      dbo.collection("Content").insert(query);
+
+     client.close();
+    });
+    res.json(req.body);
+    res.end();
+};
+
+exports.eventsUpdate = function(req, res){
+	MongoClient.connect(url, function(err, client) {
+    if (err) throw err;
+     let query = req.body.data;
+     let dbo = client.db("daybook");
+      dbo.collection("Content").remove({user_Name: query.user_Name});
+      dbo.collection("Content").insert(query);
+
+     client.close();
+    });
+
+};
