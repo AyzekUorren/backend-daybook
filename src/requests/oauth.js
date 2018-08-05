@@ -1,4 +1,4 @@
-export.log = function (req, res) {
+exports.log = function (req, res) {
   	let state = false;
   	if(req.body.userName != "" || req.body.userPass != "") {
 		let queryParams = req.body;
@@ -43,7 +43,7 @@ export.log = function (req, res) {
 	}
   };
 
-  export.registaration = function (req, res) {
+exports.registaration = function (req, res) {
   let state = true;
   let queryParams = req.body;
   MongoClient.connect(url, function(err, client) {
