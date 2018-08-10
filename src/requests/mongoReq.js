@@ -55,6 +55,7 @@ exports.log2 = function (req, res) {
     User.findOne({userName: queryParams.userName, userPass: queryParams.userPass}, function(err, user){
       if(err) throw err;
       console.log(user);
+      res.status(200).send(user);
     });
 	};
 };
