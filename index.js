@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
 
