@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
+require('dotenv').config();
 const User = require('../models/user');
 const url = `mongodb://${process.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`;
 
