@@ -18,7 +18,7 @@ exports.log = function (req, res) {
       }
       else {
         console.log("Fail log.", false);
-        res.status(200).json({"state": false, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user});
+        res.status(200).json({"state": false, "userName": undefined, "userPass": undefined, "data": undefined});
       }
     });
 	} else {
