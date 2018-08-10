@@ -34,7 +34,7 @@ const UsersSchema = new Schema({
     type: String,
     required: [true, 'Password field is required']
   },
-  user_Events:EventsSchema;
+  user_Events: EventsSchema
 });
 
 const User = mongoose.model('user', UsersSchema);
