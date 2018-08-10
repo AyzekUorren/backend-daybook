@@ -13,12 +13,12 @@ exports.log = function (req, res) {
         if(user.user_Events){
           res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user.user_Events});
         } else {
-          res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": undefined});
+          res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass});
         }
       }
       else {
         console.log("Fail log.", false);
-        res.status(200).json({"state": false, "userName": undefined, "userPass": undefined, "data": undefined});
+        res.status(200).json({"state": false});
       }
     });
 	} else {
