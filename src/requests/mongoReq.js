@@ -10,7 +10,11 @@ exports.log = function (req, res) {
       if(err) throw err;
       if(user) {
         console.log("Success log.", true);
-        res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user});
+        if(user.user_Events){
+          res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user.user_Events});
+        } else {
+          res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": undefined});
+        }
       }
       else {
         console.log("Fail log.", false);
