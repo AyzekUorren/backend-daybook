@@ -30,7 +30,7 @@ exports.registaration = function (req, res) {
       res.status(200).json({"state": false, "userName": req.body.userName, "userPass": req.body.userPass, "data": user});
     } else {
       console.log("Registration success , user doesn't exist.");
-      User.create({userName: queryParams.userName, userPass: queryParams.userPass}).then(function(user){
+      User.create({queryParams}).then(function(user){
         res.status(200).json({"state": true, "userName": req.body.userName, "userPass": req.body.userPass, "data": user});
       });
     };
