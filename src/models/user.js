@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 //Create DayBook schema
 const EventsSchema = new Schema({
-  [{
     startTime: {
       type: String
     },
@@ -23,7 +22,6 @@ const EventsSchema = new Schema({
     id: {
       type: Number
     }
-  }]
 });
 const UsersSchema = new Schema({
   userName: {
@@ -34,7 +32,7 @@ const UsersSchema = new Schema({
     type: String,
     required: [true, 'Password field is required']
   },
-  user_Events: EventsSchema
+  user_Events: [EventsSchema]
 });
 
 const User = mongoose.model('user', UsersSchema);
