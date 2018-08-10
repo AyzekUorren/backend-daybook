@@ -3,6 +3,7 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+require('dotenv').config()
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
 
