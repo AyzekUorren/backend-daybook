@@ -6,6 +6,10 @@ const mongoose = require('mongoose')
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
 
+mongoose.connect(`mongodb://${procces.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`, {
+  useMongoClient: true
+})
+mongoose.Promise = global.Promise
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
@@ -15,10 +19,6 @@ express()
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 })
-.mongoose.connect(`mongodb://${procces.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`, {
-  useMongoClient: true
-})
-.mongoose.Promise = global.Promise
   .use(bodyParser.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
