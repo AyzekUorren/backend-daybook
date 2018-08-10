@@ -21,7 +21,9 @@ exports.log = function (req, res) {
         res.status(200).json({"state": false, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user});
       }
     });
-	};
+	} else {
+    res.status(422).send({error: "miss name or pass"});
+  }
 };
 
 exports.registaration = function (req, res) {
@@ -39,7 +41,9 @@ exports.registaration = function (req, res) {
       });
     };
   });
-  };
+} else {
+  res.status(422).send({error: "miss name or pass"});
+}
 };
 
 exports.events = function(req, res){

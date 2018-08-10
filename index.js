@@ -3,7 +3,6 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-require('dotenv').config()
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
 mongoose.connect(`mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`, {
