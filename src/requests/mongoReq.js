@@ -66,26 +66,21 @@ exports.log = function (req, res) {
 };
 
 exports.registaration = function (req, res) {
-  let state = true;
+  if(req.body.userName != "" || req.body.userPass != ""){
   let queryParams = req.body;
-  MongoClient.connect(url, function(err, client) {
-    if (err) throw err;
-    const dbo = client.db("daybook");
-    let data = null;
-     dbo.collection("users").count({"userName": queryParams.userName}).then((count) => {
-        if(count == 0){
-          console.log("Registration success , user doesn't exist.");
-          dbo.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
-        } else {
-          state = false;
-          console.log("Failed, user already exists.");
-        }
-        client.close();
-        console.log("Finally result: ", state);
-        res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
-        res.end();
+  User.findOne({userName: queryParams.userName}, function(err, user){
+    if(err) throw err;
+    if(user){
+      console.log("Failed, user already exists.");
+      res.status(200).json({"state": false, "userName": req.body.userName, "userPass": req.body.userPass, "data": user});
+    } else {
+      console.log("Registration success , user doesn't exist.");
+      User.create({userName: queryParams.userName, userPass: queryParams.userPass}).then(function(user){
+        res.status(200).json({"state": true, "userName": req.body.userName, "userPass": req.body.userPass, "data": user});
       });
-    });
+    };
+  });
+  };
 };
 
 exports.events = function(req, res){
