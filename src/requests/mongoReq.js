@@ -4,7 +4,7 @@ const User = require('../models/user');
 const url = `mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`;
 
 exports.log = function (req, res) {
-  	if(req.body.userName != "" || req.body.userPass != "") {
+  	if(req.body.userName != "" && req.body.userPass != "") {
 		let queryParams = req.body;
     User.findOne({userName: queryParams.userName, userPass: queryParams.userPass}, function(err, user){
       if(err) throw err;
@@ -27,7 +27,7 @@ exports.log = function (req, res) {
 };
 
 exports.registaration = function (req, res) {
-  if(req.body.userName != "" || req.body.userPass != ""){
+  if(req.body.userName != "" && req.body.userPass != ""){
   let queryParams = req.body;
   User.findOne({userName: queryParams.userName}, function(err, user){
     if(err) throw err;
