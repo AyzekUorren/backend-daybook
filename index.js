@@ -6,8 +6,8 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
-
-mongoose.connect(`mongodb://${procces.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`, {
+console.log(procces.env.DB_PASSWORD)
+mongoose.connect(`mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`, {
   useMongoClient: true
 })
 mongoose.Promise = global.Promise
