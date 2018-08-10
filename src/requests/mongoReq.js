@@ -49,13 +49,14 @@ exports.log = function (req, res) {
 };
 
 exports.log2 = function (req, res) {
-  	let state = false;
   	if(req.body.userName != "" || req.body.userPass != "") {
 		let queryParams = req.body;
     User.findOne({userName: queryParams.userName, userPass: queryParams.userPass}, function(err, user){
       if(err) throw err;
-      console.log(user);
-      res.status(200).send(user);
+      if(user)
+        res.status(200).json({"state": true, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user})
+      else
+        res.status(200).json({"state": false, "userName": queryParams.userName, "userPass": queryParams.userPass, "data": user})
     });
 	};
 };
