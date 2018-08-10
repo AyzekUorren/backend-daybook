@@ -14,11 +14,16 @@ express()
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 })
+.mongoose.connect(`mongodb://${procces.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`, {
+  useMongoClient: true
+})
+.mongoose.Promise = global.Promise
   .use(bodyParser.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .post('/OAuth/Log', mongoReq.log)
+  .post('/log2', mongoReq.log2)
   .post('/OAuth/registration', mongoReq.registaration)
   .post('/events', mongoReq.events)
   .post('/events/update', mongoReq.eventsUpdate)

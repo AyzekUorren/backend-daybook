@@ -1,5 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook";
+const mongoose = require('mongoose');
+const User = require('../models/user');
+const url = `mongodb://${process.env.DB_USER}:${procces.env.DB_PASSWORD}@ds247670.mlab.com:47670/daybook`;
 
 exports.log = function (req, res) {
   	let state = false;
@@ -15,8 +17,8 @@ exports.log = function (req, res) {
 					console.log("Fail log.");
 					res.json({"state": state, "userName": req.body.userName, "userPass": req.body.userPass, "data": data});
 					res.end();
-				} else { 
-					state = true; 
+				} else {
+					state = true;
 					console.log("Success log.");
 					dbo.collection("Content").count({"userName":queryParams.userName}).then((count) => {
 						console.log(count);
@@ -30,7 +32,7 @@ exports.log = function (req, res) {
 							console.log("User get events data, successful.")
 							dbo.collection("Content").findOne({"userName":queryParams.userName}, function(err, result){
 								if(err) throw err;
-								
+
 								data = result.userEvents;
 								client.close();
 								console.log("Finally result: ", state);
@@ -38,13 +40,24 @@ exports.log = function (req, res) {
 								res.end();
 							});
 						}
-					  
+
 					});
 				}
 			});
 		})
 	}
-  };
+};
+
+exports.log2 = function (req, res) {
+  	let state = false;
+  	if(req.body.userName != "" || req.body.userPass != "") {
+		let queryParams = req.body;
+    User.findOne({userName: queryParams.userName, userPass: queryParams.userPass}, function(err, user){
+      if(err) throw err;
+      console.log(user);
+    });
+	};
+};
 
 exports.registaration = function (req, res) {
   let state = true;
@@ -57,8 +70,8 @@ exports.registaration = function (req, res) {
         if(count == 0){
           console.log("Registration success , user doesn't exist.");
           dbo.collection("users").insert({"userName": queryParams.userName, "userPass" : queryParams.userPass});
-        } else { 
-          state = false; 
+        } else {
+          state = false;
           console.log("Failed, user already exists.");
         }
         client.close();
