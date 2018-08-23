@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const mongoReq = require('./src/requests/mongoReq')
 mongoose.connect(config.mongourl, {
   useMongoClient: true
-})
+}, (err) => {if (err) throw err;})
 mongoose.Promise = global.Promise
 
 express()
@@ -20,11 +20,8 @@ express()
   next();
 })
   .use(bodyParser.json())
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .post('/OAuth/Log', mongoReq.log)
-  .post('/OAuth/registration', mongoReq.registaration)
+  .post('/oauth/log', mongoReq.log)
+  .post('/oauth/registration', mongoReq.registaration)
   .post('/events', mongoReq.events)
   .post('/events/update', mongoReq.eventsUpdate)
   .listen(PORT, () => {
