@@ -81,18 +81,3 @@ exports.events = (req, res) => {
     if(err) throw err;
   });
 };
-
-exports.eventsUpdate = (req, res) => {
-	MongoClient.connect(url, (err, client) => {
-    if (err) throw err;
-     let query = req.body.data;
-     let dbo = client.db("daybook");
-      dbo.collection("Content").remove({
-        user_Name: query.user_Name,
-      });
-      dbo.collection("Content").insert(query);
-
-     client.close();
-    });
-
-};

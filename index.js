@@ -23,7 +23,6 @@ express()
   .post('/oauth/log', mongoReq.log)
   .post('/oauth/registration', mongoReq.registaration)
   .post('/events', mongoReq.events)
-  .post('/events/update', mongoReq.eventsUpdate)
   .listen(PORT, () => {
   	console.log(`Listening on ${ PORT }`)
   	console.log(`Mongourl : ${config.mongourl}`)
