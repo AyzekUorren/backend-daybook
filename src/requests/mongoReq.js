@@ -1,7 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const { User: User, Events: Events } = require('../models/user');
-const url = `mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`;
 
 exports.log = (req, res) => {
   	if(req.body.userName != "" && req.body.userPass != "") {
