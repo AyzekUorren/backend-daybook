@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
-const User = require('../models/user');
+const { User: User, Events: Events } = require('../models/user');
 const url = `mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`;
 
 exports.log = (req, res) => {
@@ -8,7 +8,7 @@ exports.log = (req, res) => {
 		let queryParams = req.body;
     User.findOne({
       userName: queryParams.userName,
-      userPass: queryParams.userPass
+      userPass: queryParams.userPass,
     }, (err, user) => {
       if(err) throw err;
       if(user) {
@@ -18,13 +18,13 @@ exports.log = (req, res) => {
             "state": true,
             "userName": queryParams.userName,
             "userPass": queryParams.userPass,
-            "data": user.user_Events
+            "data": user.user_Events,
           });
         } else {
           res.status(200).json({
             "state": true,
             "userName": queryParams.userName,
-            "userPass": queryParams.userPass
+            "userPass": queryParams.userPass,
           });
         }
       }
@@ -52,7 +52,7 @@ exports.registaration = (req, res) => {
         "state": false,
         "userName": req.body.userName,
         "userPass": req.body.userPass,
-        "data": user
+        "data": user,
       });
     } else {
       console.log("Registration success , user doesn't exist.");
@@ -61,7 +61,7 @@ exports.registaration = (req, res) => {
           "state": true,
           "userName": req.body.userName,
           "userPass": req.body.userPass,
-          "data": user
+          "data": user,
         });
       });
     };
@@ -72,19 +72,14 @@ exports.registaration = (req, res) => {
 };
 
 exports.events = (req, res) => {
-  MongoClient.connect(url, (err, client) => {
-    if (err) throw err;
-     let query = req.body.data;
-     let dbo = client.db("daybook");
-      dbo.collection("Content").remove({
-        user_Name: query.user_Name,
-      });
-      dbo.collection("Content").insert(query);
-
-     client.close();
-    });
-    res.json(req.body);
-    res.end();
+  const user_Events = req.body.user_Events;
+  User.findOneAndUpdate(req.body.userName, {user_Events}, { new: true })
+  .then((result) => {
+    res.status(200).json({result, state: true,});
+  })
+  .catch((err) => {
+    if(err) throw err;
+  });
 };
 
 exports.eventsUpdate = (req, res) => {
