@@ -1,11 +1,12 @@
+require('./config/env')
 const express = require('express')
 const path = require('path')
-const PORT = process.env.PORT || 5000
+const PORT = port;
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 /*Requests */
 const mongoReq = require('./src/requests/mongoReq')
-mongoose.connect(`mongodb://anatoliy:009009q@ds247670.mlab.com:47670/daybook`, {
+mongoose.connect(mongourl, {
   useMongoClient: true
 })
 mongoose.Promise = global.Promise
