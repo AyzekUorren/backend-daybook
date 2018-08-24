@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { User: User, Events: Events } = require('../models/user');
 
 exports.log = (req, res) => {
+    console.log(`web(post): log`);
   	if(req.body.userName != "" && req.body.userPass != "") {
 		let queryParams = req.body;
     User.findOne({
@@ -38,6 +39,7 @@ exports.log = (req, res) => {
 };
 
 exports.registaration = (req, res) => {
+  console.log(`web(post): registaration`);
   if(req.body.userName != "" && req.body.userPass != ""){
   let queryParams = req.body;
   console.log(queryParams);
@@ -71,6 +73,7 @@ exports.registaration = (req, res) => {
 };
 
 exports.events = (req, res) => {
+  console.log(`web(post): events`);
   const user_Events = req.body.user_Events;
   User.findOneAndUpdate(req.body.userName, {user_Events}, { new: true })
   .then((result) => {

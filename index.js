@@ -20,6 +20,7 @@ express()
   next();
 })
   .use(bodyParser.json())
+  .get('', (req, res) => {console.log(`web: get`); res.status(404).json({error: 'plaese use API'});})
   .post('/oauth/log', mongoReq.log)
   .post('/oauth/registration', mongoReq.registaration)
   .post('/events', mongoReq.events)
