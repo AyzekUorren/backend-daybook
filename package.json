@@ -15,7 +15,8 @@
     "ejs": "^2.5.6",
     "express": "^4.15.2",
     "mongodb": "^3.0.10",
-    "mongoose": "^4.13.14"
+    "mongoose": "^4.13.14",
+    "swagger": "^0.7.5"
   },
   "devDependencies": {
     "request": "^2.81.0",

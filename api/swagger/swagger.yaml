@@ -1,0 +1,63 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: DayBook back-end
+host: localhost:5000
+basePath: "/api"
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  "/user/log":
+    post:
+      summary: Aouth user.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: Log in to your account.
+          schema:
+            type: object
+            required:
+              - userName
+              - userPass
+            properties:
+              userName:
+                type: string
+              userPass:
+                type: string
+      responses:
+        200:
+          description: User log
+        401:
+          description: bad Password or UserName
+        422:
+          description: Missing parameters
+  "/user/registration":
+    post:
+      summary: Create new user.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: Create new account.
+          schema:
+            type: object
+            required:
+              - userName
+              - userPass
+            properties:
+              userName:
+                type: string
+              userPass:
+                type: string
+      responses:
+        201:
+          description: Create User
+        409:
+          description: User alredy Exists
