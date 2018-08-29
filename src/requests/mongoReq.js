@@ -29,11 +29,11 @@ exports.log = (req, res) => {
       }
       else {
         console.log("Fail log.", false);
-        res.status(200).json({"state": false});
+        res.status(401).json({error: "Bad name or pass"});
       }
     });
 	} else {
-    res.status(422).send({error: "miss name or pass"});
+    res.status(422).json({error: "miss name or pass"});
   }
 };
 
@@ -47,7 +47,7 @@ exports.registaration = (req, res) => {
     if(err) throw err;
     if(user){
       console.log("Failed, user already exists.");
-      res.status(200).json({
+      res.status(409).json({
         "state": false,
         "userName": req.body.userName,
         "userPass": req.body.userPass,
@@ -56,7 +56,7 @@ exports.registaration = (req, res) => {
     } else {
       console.log("Registration success , user doesn't exist.");
       User.create(queryParams).then((user) => {
-        res.status(200).json({
+        res.status(201).json({
           "state": true,
           "userName": req.body.userName,
           "userPass": req.body.userPass,

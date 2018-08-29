@@ -20,9 +20,9 @@ express()
   next();
 })
   .use(bodyParser.json())
-  .post('/oauth/log', mongoReq.log)
-  .post('/oauth/registration', mongoReq.registaration)
-  .post('/events', mongoReq.events)
+  .post('/api/user/log', mongoReq.log)
+  .post('/api/user/registration', mongoReq.registaration)
+  .post('/api/events', mongoReq.events)
   .listen(PORT, () => {
   	console.log(`Listening on ${ PORT }`)
   	console.log(`Mongourl : ${config.mongourl}`)
