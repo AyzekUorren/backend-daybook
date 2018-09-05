@@ -29,6 +29,7 @@ express()
   .post('/api/user/registration', mongoReq.registaration)
   .post('/api/events', mongoReq.events)
   .listen(PORT, () => {
-  	console.log(`Listening on ${ PORT }`)
+  	console.log(`-> Listening on	\x1b[34m http://localhost:${ PORT }\x1b[0m`)
+    console.log(`-> Api docs on	\x1b[32m http://localhost:${ PORT }/api-docs\x1b[0m`)
   	console.log(`Mongourl : ${config.mongourl}`)
   })
