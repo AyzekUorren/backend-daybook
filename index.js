@@ -1,4 +1,5 @@
 const config = require('./config/env')
+const startTime = require('./api/config/runningTime')
 const fs = require("fs")
 const express = require('express')
 const path = require('path')
@@ -25,6 +26,14 @@ express()
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use(bodyParser.json())
   .get('/api/swagger/', (req, res) => res.sendFile(path.resolve('./api/swagger/swagger.yaml')))
+  .get('', (req, res) => {
+    let jsonObj = new Object({
+      started: startTime.getTimestamp(),
+      upTime: `${startTime.getTimeRun()}sec.`
+    });
+    res.send(JSON.stringify(jsonObj, null, 4));
+    }
+  )
   .post('/api/user/log', mongoReq.log)
   .post('/api/user/registration', mongoReq.registaration)
   .post('/api/events', mongoReq.events)

@@ -49,18 +49,14 @@ exports.registaration = (req, res) => {
       console.log("Failed, user already exists.");
       res.status(409).json({
         "state": false,
-        "userName": req.body.userName,
-        "userPass": req.body.userPass,
-        "data": user,
+        error: `Failed, user already exists.`,
       });
     } else {
       console.log("Registration success , user doesn't exist.");
       User.create(queryParams).then((user) => {
         res.status(201).json({
           "state": true,
-          "userName": req.body.userName,
-          "userPass": req.body.userPass,
-          "data": user,
+          "success": `Registration was successed`,
         });
       });
     };
