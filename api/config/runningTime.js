@@ -1,13 +1,21 @@
 let startTimestamp;
 
-module.exports.getTimestamp = () => {
+getTimestamp = () => {
     if (!startTimestamp) {
         startTimestamp = new Date();
     }
     return startTimestamp;
 };
 
-module.exports.getTimeRun = () => {
+getTimeRun = () => {
   let nowTime = new Date();
-  return (nowTime.getTime() - startTimestamp.getTime()) / 1000;
+  return (nowTime.getTime() - getTimestamp()) / 1000;
 }
+
+module.exports.getTimeRun = (req, res) => {
+  let jsonObj = new Object({
+    started: getTimestamp(),
+    upTime: `${getTimeRun()}sec.`
+  });
+  res.send(JSON.stringify(jsonObj, null, 4));
+  }

@@ -1,6 +1,5 @@
 const config = require('./config/env')
-const startTime = require('./api/config/runningTime')
-const fs = require("fs")
+const timeConfig = require('./api/config/runningTime')
 const express = require('express')
 const path = require('path')
 const PORT = config.port;
@@ -10,7 +9,6 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./api/swagger/swagger.yaml')
 /*Requests */
-const mongoReq = require('./src/requests/mongoReq')
 mongoose.connect(config.mongourl, {
   useMongoClient: true
 }, (err) => {if (err) throw err;})
@@ -25,18 +23,8 @@ express()
   next();})
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use(bodyParser.json())
-  .get('/api/swagger/', (req, res) => res.sendFile(path.resolve('./api/swagger/swagger.yaml')))
-  .get('', (req, res) => {
-    let jsonObj = new Object({
-      started: startTime.getTimestamp(),
-      upTime: `${startTime.getTimeRun()}sec.`
-    });
-    res.send(JSON.stringify(jsonObj, null, 4));
-    }
-  )
-  .post('/api/user/log', mongoReq.log)
-  .post('/api/user/registration', mongoReq.registaration)
-  .post('/api/events', mongoReq.events)
+  .get('', timeConfig.getTimeRun)
+  .use('/api', require('./src/routes/api'))
   .listen(PORT, () => {
   	console.log(`-> Listening on	\x1b[34m http://localhost:${ PORT }\x1b[0m`)
     console.log(`-> Api docs on	\x1b[32m http://localhost:${ PORT }/api-docs\x1b[0m`)

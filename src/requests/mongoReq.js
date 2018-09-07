@@ -56,7 +56,7 @@ exports.registaration = (req, res) => {
       User.create(queryParams).then((user) => {
         res.status(201).json({
           "state": true,
-          "success": `Registration was successed`,
+          "success": `Registration was success`,
         });
       });
     };
