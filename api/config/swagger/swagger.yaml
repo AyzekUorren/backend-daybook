@@ -1,0 +1,122 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: DayBook back-end
+host: localhost:5000
+basePath: "/api"
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  "/user/signin":
+    post:
+      summary: Aouth user.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: Log in to your account.
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: User log
+        405:
+          description: Bad request
+  "/user/signup":
+    post:
+      summary: Create new user.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: Create new account.
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              name:
+                type: string
+      responses:
+        201:
+          description: Create User
+        409:
+          description: User alredy Exists
+        405:
+          description: Bad reques
+  "/user/me":
+    get:
+      summary: Get user info.
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+      responses:
+        200:
+          description:  Get user info.
+  "/user/events":
+    get:
+      summary: Get user events.
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+      responses:
+        200:
+          description:  Get user events.
+  "/user/events":
+    post:
+      summary: Create user event.
+      consumes:
+        - application/json
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+        - in: body
+          name: event
+          description: Create user event.
+          schema:
+            type: object
+            properties:
+              startTime:
+                type: string
+              endTime:
+                type: string
+              allDay:
+                type: string
+              type:
+                type: string
+      responses:
+        200:
+          description:  Create user event.
+        405:
+          description: Bad reques

@@ -1,21 +1,32 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "name": "DayBook-backend",
+  "version": "0.0.2",
+  "description": "Node.js API using Express 4",
   "engines": {
     "node": "8.9.1"
   },
   "main": "index.js",
   "scripts": {
+    "startdev": "nodemon index",
     "start": "node index.js",
     "test": "node test.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^6.0.0",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
+    "express-promise-router": "^3.0.3",
+    "jsonwebtoken": "^8.3.0",
     "mongodb": "^3.0.10",
-    "mongoose": "^4.13.14"
+    "mongoose": "^4.13.14",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^4.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "request": "^2.81.0",
