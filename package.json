@@ -1,6 +1,6 @@
 {
   "name": "DayBook-backend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node.js API using Express 4",
   "engines": {
     "node": "8.9.1"

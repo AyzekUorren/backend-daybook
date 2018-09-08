@@ -11,7 +11,7 @@ consumes:
 produces:
 - application/json
 paths:
-  "/user/oauth":
+  "/user/signin":
     post:
       summary: Aouth user.
       consumes:
@@ -23,20 +23,18 @@ paths:
           schema:
             type: object
             required:
-              - userName
-              - userPass
+              - email
+              - password
             properties:
-              userName:
+              email:
                 type: string
-              userPass:
+              password:
                 type: string
       responses:
         200:
           description: User log
-        401:
-          description: bad Password or UserName
-        422:
-          description: Missing parameters
+        405:
+          description: Bad request
   "/user/signup":
     post:
       summary: Create new user.
@@ -49,15 +47,76 @@ paths:
           schema:
             type: object
             required:
-              - userName
-              - userPass
+              - email
+              - password
             properties:
-              userName:
+              email:
                 type: string
-              userPass:
+              password:
+                type: string
+              name:
                 type: string
       responses:
         201:
           description: Create User
         409:
           description: User alredy Exists
+        405:
+          description: Bad reques
+  "/user/me":
+    get:
+      summary: Get user info.
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+      responses:
+        200:
+          description:  Get user info.
+  "/user/events":
+    get:
+      summary: Get user events.
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+      responses:
+        200:
+          description:  Get user events.
+  "/user/events":
+    post:
+      summary: Create user event.
+      consumes:
+        - application/json
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+            format: jwt
+          required: true
+        - in: body
+          name: event
+          description: Create user event.
+          schema:
+            type: object
+            properties:
+              startTime:
+                type: string
+              endTime:
+                type: string
+              allDay:
+                type: string
+              type:
+                type: string
+      responses:
+        200:
+          description:  Create user event.
+        405:
+          description: Bad reques
