@@ -1,8 +1,7 @@
-const MongoClient = require('mongodb').MongoClient;
-const mongoose = require('mongoose');
-const { User: User, Events: Events } = require('../models/user');
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
-exports.log = (req, res) => {
+exports.oauth = (req, res) => {
   	if(req.body.userName != "" && req.body.userPass != "") {
 		let queryParams = req.body;
     User.findOne({
@@ -37,7 +36,7 @@ exports.log = (req, res) => {
   }
 };
 
-exports.registaration = (req, res) => {
+exports.signup = (req, res) => {
   if(req.body.userName != "" && req.body.userPass != ""){
   let queryParams = req.body;
   console.log(queryParams);
@@ -67,8 +66,8 @@ exports.registaration = (req, res) => {
 };
 
 exports.events = (req, res) => {
-  const user_Events = req.body.user_Events;
-  User.findOneAndUpdate(req.body.userName, {user_Events}, { new: true })
+  const _id = req.query.id;
+  User.findOne({_id})
   .then((result) => {
     res.status(200).json({result, state: true,});
   })

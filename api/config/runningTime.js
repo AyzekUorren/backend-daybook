@@ -7,6 +7,8 @@ getTimestamp = () => {
     return startTimestamp;
 };
 
+getTimestamp();
+
 getTimeRun = () => {
   let nowTime = new Date();
   return (nowTime.getTime() - getTimestamp()) / 1000;

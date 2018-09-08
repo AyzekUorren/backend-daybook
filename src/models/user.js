@@ -1,41 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//Create DayBook schema
-const EventsSchema = new Schema({
-    startTime: {
-      type: String
-    },
-
-    endTime: {
-      type: String
-    },
-
-    allDay: {
-      type: Boolean
-    },
-
-    type: {
-      type: String
-    },
-
-    id: {
-      type: Number
-    }
-});
+//Create DayBook user schema
 const UsersSchema = new Schema({
-  userName: {
+  _id: mongoose.Schema.Types.ObjectId,
+  email: {
     type: String,
-    required: [true, 'Name field is required']
+    required: [true, 'Name field is required'],
+    unique: [true, 'Name field is unique'],
   },
-  userPass: {
+  Name: {
+    type: String,
+    required: [true, 'Name field is required'],
+  },
+  password: {
     type: String,
     required: [true, 'Password field is required']
   },
-  user_Events: [EventsSchema]
+  user_Events: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'events'
+  }]
 });
 
 const User = mongoose.model('user', UsersSchema);
-const Events = mongoose.model('events', EventsSchema);
 
-module.exports = { User, Events };
+module.exports = User;

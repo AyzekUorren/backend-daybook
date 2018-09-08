@@ -11,7 +11,7 @@ consumes:
 produces:
 - application/json
 paths:
-  "/user/log":
+  "/user/oauth":
     post:
       summary: Aouth user.
       consumes:
@@ -37,7 +37,7 @@ paths:
           description: bad Password or UserName
         422:
           description: Missing parameters
-  "/user/registration":
+  "/user/signup":
     post:
       summary: Create new user.
       consumes:
