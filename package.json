@@ -23,6 +23,7 @@
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "swagger": "^0.7.5",
     "swagger-ui-express": "^4.0.1",
     "yamljs": "^0.3.0"

@@ -20,9 +20,8 @@ const EventsSchema = new Schema({
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
-      required: true,
     }
 });
 
-const Events = mongoose.model('events', EventsSchema);
-module.exports = Events;
+const Event = mongoose.model('event', EventsSchema);
+module.exports = Event;
