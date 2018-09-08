@@ -6,4 +6,5 @@ module.exports = {
   defaultUrl: process.env.URL || 'localhost',
   secret: process.env.secret || 'dev',
   name: process.env.name || 'dev',
+  jwtSecret: process.env.jwtSecret || 'dev',
 }
