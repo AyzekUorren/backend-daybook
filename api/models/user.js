@@ -3,26 +3,29 @@ const Schema = mongoose.Schema;
 
 //Create DayBook user schema
 const UsersSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   email: {
     type: String,
-    required: [true, 'Name field is required'],
-    unique: [true, 'Name field is unique'],
+    required: [true, 'email field is required'],
+    unique: [true, 'email field is unique'],
+    match: [/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    'incorrect'],
+    lowercase: true,
   },
-  Name: {
+  name: {
     type: String,
-    required: [true, 'Name field is required'],
+    required: [true, 'name field is required'],
   },
   password: {
     type: String,
-    required: [true, 'Password field is required']
+    required: [true, 'password field is required'],
+    match: [/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'password must have 9 characters, with one letter and one number'],
   },
   user_Events: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'events'
+    ref: 'events',
   }]
 });
+UsersSchema.set('validateBeforeSave', true);
 
 const User = mongoose.model('user', UsersSchema);
-
 module.exports = User;

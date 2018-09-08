@@ -8,6 +8,8 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./api/config/swagger/swagger.yaml')
 const morgan = require('morgan')
+const errorHandler = require('./api/errorHandlers/errorHandler')
+const mongoError = require('./api/errorHandlers/mongoHandler')
 
 // Configure process.env
 const config = require('./api/config/env')
@@ -33,6 +35,8 @@ express()
   .get('', timeConfig.getTimeRun)
   // Routes
   .use('/api', require('./api/routes/api'))
+  .use(mongoError)
+  .use(errorHandler)
   // Starting server
   .listen(config.port, () => {
   	console.log(`-> Listening on	\x1b[34m http://${ config.defaultUrl }:${ config.port }\x1b[0m`)

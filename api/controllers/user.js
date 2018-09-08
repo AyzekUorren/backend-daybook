@@ -1,9 +1,29 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const secret = require('../config/env').secret;
+const productName = require('../config/env').name;
 
 module.exports = {
   signin: async (req, res, next) => {
   	try {
-
+      const { email, password, name } = req.body;
+      let newUser = new User ({ email, password, name });
+      return await newUser.save( (err, user) => {
+        if (err) return err;
+        
+        console.debug(`Success: user created\n${user.id}`);
+        const access_token = jwt.sign({
+          iss: productName,
+          sub: user.id,
+          iat: new Date().getTime(),
+          exp: new Date().setDate(new Date().getDate() + 1)
+        }, secret);
+  
+        res.json({
+          user: 'created',
+          access_token
+        });
+      });
     } catch(error) {
       next(error);
     }
