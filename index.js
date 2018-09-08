@@ -6,11 +6,11 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
-const swaggerDocument = YAML.load('./api/swagger/swagger.yaml')
+const swaggerDocument = YAML.load('./api/config/swagger/swagger.yaml')
 const morgan = require('morgan')
 
 // Configure process.env
-const config = require('./config/env')
+const config = require('./api/config/env')
 // Connect / configure DB
 mongoose.connect(config.mongourl, {
   useMongoClient: true
@@ -32,7 +32,7 @@ express()
   // Startup Time and running time of server
   .get('', timeConfig.getTimeRun)
   // Routes
-  .use('/api', require('./src/routes/api'))
+  .use('/api', require('./api/routes/api'))
   // Starting server
   .listen(config.port, () => {
   	console.log(`-> Listening on	\x1b[34m http://${ config.defaultUrl }:${ config.port }\x1b[0m`)
