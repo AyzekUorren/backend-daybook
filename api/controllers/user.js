@@ -14,14 +14,14 @@ createToken = user => jwt.sign({
 module.exports = {
   signUp: async (req, res, next) => {
   	try {
-      console.debug(`<= `, req.body);
+      console.log(`<= `, req.body);
       const { email, password, name } = req.body;
       let newUser = new User ({ email, password, name });
       return await newUser.save( (err, user) => {
         if (err) return err;
         
         const access_token = createToken(user);
-        console.debug(`=> `, access_token);
+        console.log(`=> `, access_token);
         res.json({ access_token });
       });
     } catch(error) {
@@ -29,24 +29,24 @@ module.exports = {
     }
   },
   signIn: async (req, res, next) => {
-    console.debug(`<= `, req.body);
+    console.log(`<= `, req.body);
     const access_token = createToken(req.user);
-    console.debug(`=> `, access_token);
+    console.log(`=> `, access_token);
     res.json({ access_token });
   },
   getUser: async(req, res, next) => {
-    console.debug(`<= `, req.body);
+    console.log(`<= `, req.body);
     const { _id, email, name } = req.user;
     const user = { _id, email, name };
-    console.debug(`=> `, user);
+    console.log(`=> `, user);
     
     res.status(200).json(user);
   },
   events: async (req, res, next) => {
-    console.debug(`<= `, req.body);
+    console.log(`<= `, req.body);
     const events = await Event.find({ owner: req.user.id });
 
-    console.debug('=> ', events);
+    console.log('=> ', events);
     res.json({ events });
   },
   emailToLowerCase: async (req, res, next) => {
@@ -58,13 +58,13 @@ module.exports = {
     const { startTime, endTime, allDay, type } = req.body;
     const owner = req.user.id;
     const options = { startTime, endTime, allDay , type, owner};
-    console.debug(`<= `, req.body);
+    console.log(`<= `, req.body);
     let newEvent = new Event( options );
 
     return newEvent.save((err, event) => {
       if (err) return err;
       
-      console.debug('=> ', event);
+      console.log('=> ', event);
       res.status(200).json( event );
     });
   } catch(error) {
